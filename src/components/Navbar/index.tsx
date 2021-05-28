@@ -1,36 +1,55 @@
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { GiHamburgerMenu } from 'react-icons/gi';
 import styled from 'styled-components';
 
+import { useWindowSize } from '../../hooks/useWindowSize';
+
 const Navbar = () => {
+    const [toggleMenu, setToggleMenu] = useState(false);
+
+    const size = useWindowSize();
+    console.log(size)
+
+    const navItems = [
+        { path: '/', label: 'Home' },
+        { path: '/about', label: 'About' },
+        { path: '/login', label: 'Login' }
+    ];
+
+
     return (
-        <Nav>
-                <NavLink 
-                    className="btn btn-outline-success m-2" 
-                    activeClassName='btn-success text-white' 
-                    exact to='/'>
-                        Home
-                </NavLink>
-                <NavLink 
-                    className="btn btn-outline-success m-2"
-                    activeClassName='btn-success text-white'
-                    exact to='/about'>
-                        About
-                </NavLink>
-                <NavLink 
-                    className="btn btn-outline-success m-2"
-                    activeClassName='btn-success text-white'
-                    exact to='/login'>
-                        Login
-                </NavLink>
-        </Nav>
+        // <Nav className='d-flex flex-wrap w-100 justify-content-end'>
+        <div className="container-fluid shadow-sm">
+            <Nav className="row">
+                <div className='col-9 d-flex flex-wrap align-items-center justify-content-center'>
+                    {toggleMenu && <>
+                        {navItems.map((item, idx) => (
+                            <NavLink key={`navlink-item-${item.label}-#${idx}`}
+                                onClick={() => setToggleMenu(false)}
+                                style={{ "backgroundColor": "#4f6a6a", "color": "#dadfdf" }}
+                                className="btn col-xs-12 col-sm-9 col-md-6 col-lg-3 btn-outline-success m-2 shadow-sm"
+                                activeStyle={{ "backgroundColor": "#708685", "color": "#dadfdf" }}
+                                activeClassName='btn-success text-white font-weight-bold shadow'
+                                exact to={`${item.path}`}>
+                                {item.label}
+                            </NavLink>
+                        ))}
+                    </>}
+                </div>
+                <button
+                    style={{ "fontWeight": "bold", "fontSize": "2rem" }}
+                    onClick={() => setToggleMenu(!toggleMenu)} className="col-2 btn btn-outline-success shadow-lg m-2">
+                    <GiHamburgerMenu />
+                </button>
+            </Nav>
+        </div>
     );
 }
 
 
 const Nav = styled.nav`
     background-color: #2f4f4f;
-    display: flex;
-    justify-content: right;
 `;
 
 

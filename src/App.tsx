@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter, Switch, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import Navbar from './components/Navbar'
+import NotFound from './views/404';
 
 const App = () => {
   useEffect(() => {
@@ -12,30 +13,23 @@ const App = () => {
 
   return (
     <BrowserRouter>
-    <Navbar />
-      <Switch>
-        <Route exact path='/'>
-          <main className='d-flex justify-content-center min-vh-100 align-items-center'>
+      <Navbar />
+      <main className="d-flex justify-content-center min-vh-100 align-items-center">
+        <Switch>
+          <Route exact path='/'>
             <h1 className='text-success'>Home</h1>
-          </main>
-        </Route>
-        <Route exact path='/about'>
-          <main className='d-flex justify-content-center min-vh-100 align-items-center'>
+          </Route>
+          <Route exact path='/about'>
             <h1 className='text-danger'>About</h1>
-          </main>
-        </Route>  
-        <Route exact path='/login'>
-          <main className='d-flex justify-content-center min-vh-100 align-items-center'>
+          </Route>
+          <Route exact path='/login'>
             <h1 className='text-danger'>Login</h1>
-          </main>
-        </Route>
-        <Route path='*'>
-          <main className='d-flex justify-content-center min-vh-100 align-items-center'>
-            <h1>404</h1>
-            {/* <h1 className='text-danger'>404, {useLocation().pathname} not found</h1> */}
-          </main>
-        </Route>  
-      </Switch>   
+          </Route>
+          <Route path='*'>
+            <NotFound />
+          </Route>
+        </Switch>
+      </main>
     </BrowserRouter>
   );
 }
