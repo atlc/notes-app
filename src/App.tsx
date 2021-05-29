@@ -3,10 +3,11 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import Navbar from './components/Navbar'
 import NotFound from './views/404';
+import LoginRegister from './views/auth/login';
 
 const App = () => {
   useEffect(() => {
-    document.body.style.backgroundColor = '#92a3a2';
+    document.body.style.backgroundColor = '#b5c1c0';
 
     return () => { document.body.style.removeProperty('backgroundColor'); }
   }, []);
@@ -14,21 +15,23 @@ const App = () => {
   return (
     <BrowserRouter>
       <Navbar />
-      <main className="d-flex justify-content-center min-vh-100 align-items-center">
-        <Switch>
-          <Route exact path='/'>
-            <h1 className='text-success'>Home</h1>
-          </Route>
-          <Route exact path='/about'>
-            <h1 className='text-danger'>About</h1>
-          </Route>
-          <Route exact path='/login'>
-            <h1 className='text-danger'>Login</h1>
-          </Route>
-          <Route path='*'>
-            <NotFound />
-          </Route>
-        </Switch>
+      <main className="container-fluid min-w-100 min-vh-100 d-flex align-items-center">
+        <div className="d-flex w-100 justify-content-center ">
+          <Switch>
+            <Route exact path='/'>
+              <h1 className='text-success'>Home</h1>
+            </Route>
+            <Route exact path='/about'>
+              <h1 className='text-danger'>About</h1>
+            </Route>
+            <Route exact path='/login'>
+              <LoginRegister />
+            </Route>
+            <Route path='*'>
+              <NotFound />
+            </Route>
+          </Switch>
+        </div>
       </main>
     </BrowserRouter>
   );
