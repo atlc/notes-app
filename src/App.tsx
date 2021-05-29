@@ -1,9 +1,13 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import Navbar from './components/Navbar'
 import NotFound from './views/404';
-import LoginRegister from './views/auth/login';
+import LoginRegister from './views/users/login';
+import Profile from './views/users/profile';
+
+toast.configure();
 
 const App = () => {
   useEffect(() => {
@@ -23,6 +27,9 @@ const App = () => {
             </Route>
             <Route exact path='/about'>
               <h1 className='text-danger'>About</h1>
+            </Route>
+            <Route exact path='/profile/:user_id'>
+              <Profile />
             </Route>
             <Route exact path='/login'>
               <LoginRegister />

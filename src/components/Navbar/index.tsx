@@ -5,11 +5,13 @@ import styled from 'styled-components';
 
 const Navbar = () => {
     const [toggleMenu, setToggleMenu] = useState(false);
+    const id = localStorage.getItem('user_id');
 
     const navItems = [
         { path: '/', label: 'Home' },
-        { path: '/about', label: 'About' },
-        { path: '/login', label: 'Login' }
+        { path: '/create', label: 'Create Note' },
+        { path: '/login', label: 'Login' },
+        { path: `/profile/${id}`, label: 'Profile / My Notes' }
     ];
 
     const handleToggleMenu = () => {
