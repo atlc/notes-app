@@ -30,7 +30,7 @@ const opinionated_fetch = async (uri: string, method: string = 'GET', object_dat
     }
 }
 
-export const GET = (uri: string) => opinionated_fetch(uri);
-export const POST = (uri: string, data: {}) => opinionated_fetch(uri, 'POST', data);
-export const PUT = (uri: string, data: {}) => opinionated_fetch(uri, 'PUT', data);
-export const DELETE = (uri: string) => opinionated_fetch(uri, 'DELETE');
+export const GET = (api_path: string) => opinionated_fetch(api_path);
+export const POST = (api_path: string, data: {}) => opinionated_fetch(api_path, 'POST', data);
+export const PUT = (api_path: string, data: {}) => opinionated_fetch(api_path, 'PUT', data);
+export const DELETE = (api_path: string) => opinionated_fetch(api_path, 'DELETE');
