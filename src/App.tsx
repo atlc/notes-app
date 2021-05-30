@@ -25,8 +25,8 @@ const App = () => {
             <Route exact path='/'>
               <h1 className='text-success'>Home</h1>
             </Route>
-            <Route exact path='/about'>
-              <h1 className='text-danger'>About</h1>
+            <Route exact path='/create'>
+              <h1 className='text-danger'>Abcreateout</h1>
             </Route>
             <Route exact path='/profile/:user_id'>
               <Profile />
