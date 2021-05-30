@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 
 import Navbar from './components/Navbar'
 import NotFound from './views/404';
+import Create from './views/cards/Create';
 import LoginRegister from './views/users/login';
 import Profile from './views/users/profile';
 
@@ -26,7 +27,7 @@ const App = () => {
               <h1 className='text-success'>Home</h1>
             </Route>
             <Route exact path='/create'>
-              <h1 className='text-danger'>Abcreateout</h1>
+              <Create />
             </Route>
             <Route exact path='/profile/:user_id'>
               <Profile />
