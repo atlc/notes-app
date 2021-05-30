@@ -4,7 +4,7 @@ const TOKEN = localStorage.getItem('token');
 
 const Fetcher = async (uri: string, method: string = 'GET', object_data: {} = {}) => {
     const bathBomb = useToaster();
-    uri = `${process.env.REACT_APP_API_URL_BASE}` + uri;
+    uri = `https://atlc-core-api.herokuapp.com` + uri;
 
     const headers: { [key: string]: string } = {
         'Content-type': 'application/json; charset=utf-8'
