@@ -38,11 +38,11 @@ const Profile = () => {
 
 
             <h3>Notes:</h3>
-            {notes && notes?.map(note => (
+            {/* {notes && notes?.map(note => (
                 <div key={note?.id}>
                     {note?.content}
                 </div>
-            ))}
+            ))} */}
         </div>
     );
 }
