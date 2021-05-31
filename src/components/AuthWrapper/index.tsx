@@ -7,7 +7,7 @@ const AuthWrapper = (props) => {
     const checkAuth = useCheckAuth();
     console.log({ props })
 
-    if (checkAuth) {
+    if (checkAuth()) {
         return (
             <Route exact={props.exact} path={props.path}>
                 {props.children}

@@ -10,13 +10,14 @@ const Profile = () => {
     const bathBomb = useToaster();
     const { user_id } = useParams<{ user_id: string }>();
     // const [demographics, setDemos] = useState<Users>();
-    const [notes, setNotes] = useState<Note[]>();
+    const [notes, setNotes] = useState<Note[]>([]);
     const [loaded, setLoaded] = useState(false);
+    const [shouldReloadProfile, setReload] = useState(false);
 
     useEffect(() => {
         (async () => {
             try {
-                // const userInfo = await GET(`/api/users/profile/${user_id}`);
+                // const userInfo = await GET(`/api/users/profile/`);
                 // setDemos(userInfo);
 
                 const userNotes = await GET(`/api/notes/profile`);
@@ -26,13 +27,16 @@ const Profile = () => {
                 bathBomb({ message: error, type: 'error', time_ms: 3000 });
             }
         })();
-    }, [user_id])
+    }, [user_id, shouldReloadProfile])
+
+
+    const toggleReload = (e: React.MouseEvent<HTMLButtonElement>) => setReload(!shouldReloadProfile);
 
     return (
-        <div className='d-flex flex-wrap w-100 justify-content-center'>
+        <div className='d-flex flex-wrap w-100 justify-content-around'>
             {notes?.length ? notes?.map(note => (
-                <NoteCard content={note.content} id={note.id} key={note.id} />
-            )) : loaded ? <NoteCard content={`# No notes found for user`} /> : <Loader />}
+                <div key={note.id} className="col-xs-11 col-sm-10 col-md-8 col-lg-6 col-xl-4"> <NoteCard deleteTrigger={toggleReload} content={note.content} id={note.id} key={note.id} /></div>
+            )) : loaded ? <div className="col-xs-11 col-sm-10 col-md-8 col-lg-6 col-xl-4"> <NoteCard allowIcons={false} deleteTrigger={toggleReload} content={`# No notes found for user`} /></div> : <Loader />}
         </div>
     );
 }

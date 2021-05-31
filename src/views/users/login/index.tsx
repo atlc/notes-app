@@ -4,6 +4,7 @@ import { useToaster } from '../../../hooks/useToaster';
 import Loader from '../../../components/Loader';
 import { POST } from '../../../services/api';
 import { useHistory } from 'react-router-dom';
+import { useAuthState } from '../../../hooks/useAuthState';
 
 const LoginRegister = () => {
     const [isRegistering, setIsRegistering] = useState(false);
@@ -15,6 +16,8 @@ const LoginRegister = () => {
 
     const bathBomb = useToaster();
     const history = useHistory();
+    const { setIsLoggedIn } = useAuthState();
+
 
     useEffect(() => {
         if (email && password && (isRegistering ? username : true)) {
@@ -42,27 +45,32 @@ const LoginRegister = () => {
         }
 
         try {
-            const { id, token } = await POST(`/auth/${isRegistering ? 'register' : 'login'}`, data)
-
-            if (token) {
+            const res = await POST(`/auth/${isRegistering ? 'register' : 'login'}`, data)
+            console.log({ res })
+            if (res.token) {
+                setIsLoggedIn(true);
                 setShowLoader(false);
-                localStorage.setItem('token', token);
-                localStorage.setItem('user_id', id);
                 bathBomb({ message: `User was ${isRegistering ? 'registered' : 'logged in'}!`, time_ms: 1500 })
+                    .then((tid) => {
+                        localStorage.clear();
+                        localStorage.setItem('token', res.token);
+                        localStorage.setItem('user_id', res.id);
+                        setTimeout(() => tid, 250);
+                    })
                     .then((toast_id) => {
-                        console.log(toast_id);
-                        history.push(`/profile/${id}`);
+                        history.push(`/profile`);
                     });
+            } else {
+                setShowLoader(false);
             }
-
         } catch (error) {
             setShowLoader(false);
-            bathBomb({ message: error, type: 'error' });
+            bathBomb({ message: error, type: 'error', time_ms: 6000 });
         }
     }
 
     if (showLoader) {
-        return <div style={{ zIndex: 10 }}> <Loader loadingText={isRegistering ? 'Registering user' : 'Logging in'} /> </div>
+        return <div className='col-xs-12 col-sm-10 col-md-8 col-lg-6 col-xl-4 d-flex justify-content-center' style={{ zIndex: 10 }}> <Loader loadingText={isRegistering ? 'Registering user' : 'Logging in'} /> </div>
     }
 
     return (
@@ -71,17 +79,17 @@ const LoginRegister = () => {
             <form className='w-100 mt-5'>
                 {isRegistering && <div className="form-group">
                     <label style={{ "color": "#223636" }}><h4><strong>@</strong> Username</h4></label>
-                    <input onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUsername(e.target.value)} maxLength={24} type="text" className="form-control" />
+                    <input value={username} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUsername(e.target.value)} maxLength={24} type="text" className="form-control" />
                     {isRegistering && <small className="form-text text-muted text-right">{username.length} / 24</small>}
                 </div>}
                 <div className="form-group">
                     <label style={{ "color": "#223636" }}><h4><RiMailSendFill /> Email address</h4></label>
-                    <input maxLength={64} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)} type="email" className="form-control" />
+                    <input value={email} maxLength={64} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)} type="email" className="form-control" />
                     {isRegistering && <small className="form-text text-muted text-right">{email.length} / 64</small>}
                 </div>
                 <div className="form-group">
                     <label style={{ "color": "#223636" }}><h4><RiLockPasswordFill /> Password</h4></label>
-                    <input maxLength={72} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)} type="password" className="form-control" />
+                    <input value={password} maxLength={72} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)} type="password" className="form-control" />
                     {isRegistering && <small className="form-text text-muted text-right">{password.length} / 72</small>}
                 </div>
                 <button
@@ -94,5 +102,11 @@ const LoginRegister = () => {
         </div>
     )
 }
+
+// interface LoginStateProps {
+//     state?: {
+//         setLoggedIn: () => void
+//     }
+// }
 
 export default LoginRegister;

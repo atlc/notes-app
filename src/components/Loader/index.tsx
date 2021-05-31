@@ -20,20 +20,6 @@ const Loader = ({ loadingText = 'Loading' }: LoadProps) => {
         }, 600);
     }, [elipsis])
 
-    // const cycle = () => {
-    //     return setInterval(() => {
-    //     }, 500);
-    // }
-
-    // useEffect(() => {
-    //     const id = cycle();
-
-    //     return () => {
-    //         console.log(id);
-    //         clearInterval(id);
-    //     }
-    // }, [widthIndexes])
-
 
     return (
         <div className='rounded-3 col-sm-10 col-md-6 col-lg-4 p-5 shadow-lg border-2' style={{ "backgroundColor": "#dadfdf" }}>

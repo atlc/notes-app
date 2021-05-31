@@ -29,12 +29,12 @@ const App = () => {
         <div className="d-flex w-100 justify-content-center ">
           <Switch>
             <Route exact path='/'>
-              {isAuthed ? <Redirect to={`/profile/${id}`} /> : <Redirect to='/login' />}
+              {isAuthed() ? <Redirect to='/profile' /> : <Redirect to='/login' />}
             </Route>
             <AuthWrapper exact path='/create'>
               <Create />
             </AuthWrapper>
-            <AuthWrapper exact path='/profile/:user_id'>
+            <AuthWrapper exact path='/profile'>
               <Profile />
             </AuthWrapper>
             <Route exact path='/login'>
