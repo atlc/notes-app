@@ -1,11 +1,29 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useHistory, useLocation } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown'
 import gfm from 'remark-gfm';
 import { useToaster } from '../../hooks/useToaster';
-import { POST } from '../../services/api';
+import { POST, PUT } from '../../services/api';
+import { get_user_id } from '../../hooks/useCheckAuth';
 
 const Create = () => {
+    const location = useLocation();
+    const history = useHistory();
     const [content, setContent] = useState('');
+    const [editId, setEditId] = useState('');
+
+    const user_id = get_user_id();
+
+    useEffect(() => {
+        if (location.state) {
+            //@ts-ignore
+            setContent(location.state.content);
+            //@ts-ignore
+            setEditId(location.state.id);
+        }
+    }, [location.state])
+
+
     const bathBomb = useToaster();
     const updateContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => setContent(e.target.value);
 
@@ -13,8 +31,13 @@ const Create = () => {
         e.preventDefault();
 
         try {
-            const res = await POST('/api/notes', { content });
-            bathBomb({ message: res });
+            if (editId) {
+                const res = await PUT(`/api/notes/${editId}`, { content });
+                bathBomb({ message: res.message }).then(() => history.push(`/profile/${user_id}`));
+            } else {
+                const res = await POST('/api/notes', { content });
+                bathBomb({ message: res.message }).then(() => history.push(`/profile/${user_id}`));
+            }
         } catch (error) {
             bathBomb({ message: error, type: 'error' });
         }
@@ -32,12 +55,12 @@ const Create = () => {
                                 {content}
                             </ReactMarkdown>
                         </div></>}
-                <textarea className="form-control" rows={8} placeholder='Start typing your note here!' onChange={updateContent} />
+                <textarea className="form-control" value={content} rows={8} placeholder='Start typing your note here!' onChange={updateContent} />
                 <div className="justify-content-center mt-1">
                     <p className="form-text text-muted"><a className="badge" style={{ "backgroundColor": "#2f4f4f", "color": "#dadfdf" }} href="https://www.markdownguide.org/cheat-sheet/#basic-syntax">Markdown</a> is supported for some fancy styling!</p>
                     {content &&
                         <button style={{ "backgroundColor": "#2f4f4f", "color": "#dadfdf" }} className="mt-2 btn" onClick={handleSubmit}>
-                            Submit Note
+                            {editId ? 'Save edits' : 'Submit Note'}
                         </button>}
                 </div>
             </div>

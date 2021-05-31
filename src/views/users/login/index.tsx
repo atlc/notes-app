@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { RiMailSendFill, RiLockPasswordFill } from 'react-icons/ri';
 import { useToaster } from '../../../hooks/useToaster';
+import Loader from '../../../components/Loader';
 import { POST } from '../../../services/api';
 import { useHistory } from 'react-router-dom';
 
@@ -10,6 +11,7 @@ const LoginRegister = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [formDone, setFormDone] = useState(false);
+    const [showLoader, setShowLoader] = useState(false);
 
     const bathBomb = useToaster();
     const history = useHistory();
@@ -26,6 +28,8 @@ const LoginRegister = () => {
     const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         if (!formDone) return;
+        setShowLoader(true);
+
 
         const data: { [key: string]: string } = {
             username,
@@ -41,6 +45,7 @@ const LoginRegister = () => {
             const { id, token } = await POST(`/auth/${isRegistering ? 'register' : 'login'}`, data)
 
             if (token) {
+                setShowLoader(false);
                 localStorage.setItem('token', token);
                 localStorage.setItem('user_id', id);
                 bathBomb({ message: `User was ${isRegistering ? 'registered' : 'logged in'}!`, time_ms: 1500 })
@@ -51,10 +56,14 @@ const LoginRegister = () => {
             }
 
         } catch (error) {
+            setShowLoader(false);
             bathBomb({ message: error, type: 'error' });
         }
     }
 
+    if (showLoader) {
+        return <div style={{ zIndex: 10 }}> <Loader loadingText={isRegistering ? 'Registering user' : 'Logging in'} /> </div>
+    }
 
     return (
         <div className='rounded-3 col-sm-10 col-md-6 col-lg-4 p-5 shadow border-2' style={{ "backgroundColor": "#dadfdf" }}>

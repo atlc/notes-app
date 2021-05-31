@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { toast } from 'react-toastify';
-
+import AuthWrapper from './components/AuthWrapper';
 import Navbar from './components/Navbar'
 import NotFound from './views/404';
 import Create from './views/cards/Create';
@@ -24,14 +24,13 @@ const App = () => {
         <div className="d-flex w-100 justify-content-center ">
           <Switch>
             <Route exact path='/'>
-              <h1 className='text-success'>Home</h1>
             </Route>
-            <Route exact path='/create'>
+            <AuthWrapper exact path='/create'>
               <Create />
-            </Route>
-            <Route exact path='/profile/:user_id'>
+            </AuthWrapper>
+            <AuthWrapper exact path='/profile/:user_id'>
               <Profile />
-            </Route>
+            </AuthWrapper>
             <Route exact path='/login'>
               <LoginRegister />
             </Route>

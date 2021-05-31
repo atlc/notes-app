@@ -1,23 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { GiHamburgerMenu } from 'react-icons/gi';
+import { useCheckAuth } from '../../hooks/useCheckAuth';
 import styled from 'styled-components';
 
 const Navbar = () => {
     const [toggleMenu, setToggleMenu] = useState(false);
-    const id = localStorage.getItem('user_id');
+    const handleToggleMenu = () => setToggleMenu(!toggleMenu);
+    const [navItems, setNavItems] = useState([{ path: '/login', label: 'Login' }])
 
-    const navItems = [
-        { path: '/', label: 'Home' },
-        { path: '/create', label: 'Create Note' },
-        { path: '/login', label: 'Login' },
-        { path: `/profile/${id}`, label: 'Profile / My Notes' }
-    ];
 
-    const handleToggleMenu = () => {
+    const checkAuth = useCheckAuth();
 
-        setToggleMenu(!toggleMenu)
-    }
+    useEffect(() => {
+        const isLoggedIn = checkAuth;
+        if (isLoggedIn) {
+            const id = localStorage.getItem('user_id');
+            setNavItems([
+                { path: '/create', label: 'Create Note' },
+                { path: `/profile/${id}`, label: 'My Notes' }
+            ]);
+        } else {
+            setNavItems([{ path: '/login', label: 'Login' }]);
+        }
+    }, [checkAuth])
+
+
 
     return (
         <div className="container-fluid shadow-sm">
