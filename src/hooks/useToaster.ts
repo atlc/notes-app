@@ -8,8 +8,8 @@ export const useToaster = () => {
 
         return new Promise((resolve) => {
             if (type === 'error') {
-                resolve(toast.error('👨‍💻 Error! (Andrew probably broke something.) 👨‍💻 ' + message, {
-                    style: { backgroundColor: "#e30b5d", fontWeight: "bold", color: "#dadfdf" },
+                resolve(toast.error('👨‍💻 Error! 👨‍💻 ' + message, {
+                    style: { backgroundColor: "#d33", fontWeight: "bold", color: "#dadfdf" },
                     className: 'text-shadow'
                 }));
             } else if (type === 'warning') {

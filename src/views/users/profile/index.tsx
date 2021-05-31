@@ -26,7 +26,7 @@ const Profile = () => {
                 bathBomb({ message: error, type: 'error', time_ms: 3000 });
             }
         })();
-    }, [user_id, bathBomb])
+    }, [user_id])
 
     return (
         <div className='d-flex flex-wrap w-100 justify-content-center'>
