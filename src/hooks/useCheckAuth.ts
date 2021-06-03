@@ -3,16 +3,18 @@ import jwt_decode from 'jwt-decode';
 export const useCheckAuth = () => {
     return () => {
         try {
-            const token = localStorage.getItem('token') || '';
+            const token = localStorage.getItem('token');
+            if (!token) return false;
+
             const decoded: Token = jwt_decode(token);
             const now = Math.floor(+new Date() / 1000);
             const { exp } = decoded;
-
+            const isNotExpired = now <= +exp
             // Once API is faster return this
             // const isUser = await GET('/api/status');
             // return isUser.okay ? true : false;
 
-            return (token && now <= +exp);
+            return isNotExpired;
         } catch (error) {
             return false;
         }

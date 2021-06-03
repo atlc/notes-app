@@ -84,8 +84,12 @@ const Create = () => {
                 </div>
                 <div>
                     {content &&
-                        <button style={btnStyle} className="mt-2 btn" onClick={handleSubmit}>
+                        <button style={btnStyle} className="mt-2 mx-1 btn" onClick={handleSubmit}>
                             {editId ? 'Save edits' : 'Submit Note'}
+                        </button>}
+                    {content &&
+                        <button style={btnStyle} className="mt-2 mx-1 btn" onClick={() => history.goBack()}>
+                            {editId && 'Cancel'}
                         </button>}
                 </div>
             </div>
