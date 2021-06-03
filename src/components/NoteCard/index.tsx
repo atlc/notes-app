@@ -47,8 +47,8 @@ const NoteCard = ({ id, content, deleteTrigger, allowIcons = true }: NoteCardPro
             <div className="card-body">
                 {allowIcons
                     && <div className='d-flex justify-content-end'>
-                        <Link to={{ pathname: '/create', state: { id, content } }}> <button style={{ color: "#4f6a6a" }} className="btn"><AiFillEdit /></button></Link>
-                        <button onClick={handleDeletePrompt} style={{ color: "#d33" }} className="btn"><RiDeleteBack2Fill /></button>
+                        <Link to={{ pathname: '/create', state: { id, content } }}> <button style={{ color: "#4f6a6a", fontSize: "1.6rem" }} className="btn mr-1"><AiFillEdit /></button></Link>
+                        <button onClick={handleDeletePrompt} style={{ color: "#d33", fontSize: "1.6rem" }} className="ml-1 btn"><RiDeleteBack2Fill /></button>
                     </div>}
                 <ReactMarkdown remarkPlugins={[gfm]}>
                     {content}

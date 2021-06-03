@@ -5,7 +5,7 @@ import gfm from 'remark-gfm';
 import { useToaster } from '../../hooks/useToaster';
 import { POST, PUT } from '../../services/api';
 import { get_user_id } from '../../hooks/useCheckAuth';
-import { FaBold, FaItalic, FaStrikethrough } from 'react-icons/fa';
+import { FaBold, FaItalic, FaStrikethrough, FaCode } from 'react-icons/fa';
 import { ImListNumbered, ImList } from 'react-icons/im';
 
 const Create = () => {
@@ -48,7 +48,7 @@ const Create = () => {
     }
 
     const injectCharacters = (chars: string) => {
-        setContent(content + chars);
+        setContent(content + '\n' + chars);
     }
 
     const buttonPanel = (
@@ -57,9 +57,9 @@ const Create = () => {
             <button onClick={(e: React.MouseEvent<HTMLButtonElement>) => injectCharacters('_italicized_')} style={btnStyle} className="btn m-1"> <FaItalic /> </button>
             <button onClick={(e: React.MouseEvent<HTMLButtonElement>) => injectCharacters('~~strikethrough~~')} style={btnStyle} className="btn m-1"> <FaStrikethrough /></button>
             <button onClick={(e: React.MouseEvent<HTMLButtonElement>) => injectCharacters('# Header 1')} style={btnStyle} className="btn m-1"> H1</button>
-            <button onClick={(e: React.MouseEvent<HTMLButtonElement>) => injectCharacters('\n- ')} style={btnStyle} className="btn m-1"> <ImList /></button>
-            <button onClick={(e: React.MouseEvent<HTMLButtonElement>) => injectCharacters('\n1. ')} style={btnStyle} className="btn m-1"> <ImListNumbered /></button>
-
+            <button onClick={(e: React.MouseEvent<HTMLButtonElement>) => injectCharacters('- [ ] To-do Item')} style={btnStyle} className="btn m-1"> <ImList /></button>
+            <button onClick={(e: React.MouseEvent<HTMLButtonElement>) => injectCharacters('1. ')} style={btnStyle} className="btn m-1"> <ImListNumbered /></button>
+            <button onClick={(e: React.MouseEvent<HTMLButtonElement>) => injectCharacters('`code`')} style={btnStyle} className="btn m-1"> <FaCode /></button>
         </>
     )
 

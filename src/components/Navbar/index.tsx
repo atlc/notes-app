@@ -1,9 +1,8 @@
-import React, { useState, useEffect, MouseEventHandler } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { logout, useCheckAuth } from '../../hooks/useCheckAuth';
 import styled from 'styled-components';
 import { GiHamburgerMenu } from 'react-icons/gi'
-// import { useAuthState } from '../../hooks/useAuthState';
 
 const Navbar = () => {
     const checkAuth = useCheckAuth();
@@ -14,7 +13,6 @@ const Navbar = () => {
 
     useEffect(() => {
         if (isLoggedIn) {
-            const id = localStorage.getItem('user_id');
             setNavItems([
                 { path: '/create', label: 'Add Note' },
                 { path: `/profile`, label: 'My Notes' },
@@ -35,9 +33,7 @@ const Navbar = () => {
         setIsLoggedIn(checkAuth());
         setToggleMenu(false);
 
-        if (label === 'Logout') {
-            handleLogout();
-        }
+        if (label === 'Logout') handleLogout();
     }
 
     const toggle = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -54,7 +50,6 @@ const Navbar = () => {
                 {navItems.map((item, idx) => (
                     <NavLink key={`navlink-item-${item.label}-#${idx}`}
                         onClick={() => handleNavLinkClick(item.label)}
-                        // onClick={(e: MouseEventHandler<HTMLAnchorElement>) => console.log(e)}
                         style={{ "backgroundColor": "#4f6a6a", "color": "#dadfdf", "padding": "0.375rem 0.5rem" }}
                         className="btn btn-outline-success m-1 shadow-sm"
                         activeStyle={{ "backgroundColor": "#708685", "color": "#dadfdf" }}
