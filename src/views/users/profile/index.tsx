@@ -36,7 +36,7 @@ const Profile = () => {
         <div className='d-flex flex-wrap w-100 justify-content-around'>
             {notes?.length ? notes?.map(note => (
                 <div key={note.id} className="col-xs-11 col-sm-10 col-md-8 col-lg-6 col-xl-4"> <NoteCard reloadTrigger={toggleReload} isPinned={note.pinned === 1 ? true : false} allowIcons content={note.content} isPreview id={note.id} key={note.id} /></div>
-            )) : loaded ? <div className="col-xs-11 col-sm-10 col-md-8 col-lg-6 col-xl-4"> <NoteCard allowIcons={false} reloadTrigger={toggleReload} content={`# No notes found for user`} /></div> : <Loader />}
+            )) : loaded ? <div className="col-xs-11 col-sm-10 col-md-8 col-lg-6 col-xl-4"> <NoteCard allowIcons={false} reloadTrigger={toggleReload} content={`No notes? Create some!`} /></div> : <Loader />}
         </div>
     );
 }
