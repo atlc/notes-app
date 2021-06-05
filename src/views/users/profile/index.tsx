@@ -35,10 +35,10 @@ const Profile = () => {
     return (
         <div className='d-flex flex-wrap w-100 justify-content-around'>
             {notes?.length ? notes?.map(note => (
-                <div key={note.id} className="col-xs-11 col-sm-10 col-md-8 col-lg-6 col-xl-4"> <NoteCard deleteTrigger={toggleReload} content={note.content} id={note.id} key={note.id} /></div>
+                <div key={note.id} className="col-xs-11 col-sm-10 col-md-8 col-lg-6 col-xl-4"> <NoteCard allowIcons deleteTrigger={toggleReload} content={note.content} isPreview id={note.id} key={note.id} /></div>
             )) : loaded ? <div className="col-xs-11 col-sm-10 col-md-8 col-lg-6 col-xl-4"> <NoteCard allowIcons={false} deleteTrigger={toggleReload} content={`# No notes found for user`} /></div> : <Loader />}
         </div>
     );
 }
 
-export default Profile
+export default Profile;

@@ -4,7 +4,6 @@ import ReactMarkdown from 'react-markdown'
 import gfm from 'remark-gfm';
 import { useToaster } from '../../hooks/useToaster';
 import { POST, PUT } from '../../services/api';
-import { get_user_id } from '../../hooks/useCheckAuth';
 import { FaBold, FaItalic, FaStrikethrough, FaCode } from 'react-icons/fa';
 import { ImListNumbered, ImList } from 'react-icons/im';
 
@@ -15,8 +14,6 @@ const Create = () => {
     const [editId, setEditId] = useState('');
 
     const btnStyle = { "backgroundColor": "#2f4f4f", "color": "#dadfdf", "fontSize": "0.8rem" };
-
-    const user_id = get_user_id();
 
     useEffect(() => {
         if (location.state) {
@@ -89,7 +86,7 @@ const Create = () => {
                         </button>}
                     {content &&
                         <button style={btnStyle} className="mt-2 mx-1 btn" onClick={() => history.goBack()}>
-                            {editId && 'Cancel'}
+                            Cancel
                         </button>}
                 </div>
             </div>
