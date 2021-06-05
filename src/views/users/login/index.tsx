@@ -55,7 +55,7 @@ const LoginRegister = () => {
                         localStorage.clear();
                         localStorage.setItem('token', res.token);
                         localStorage.setItem('user_id', res.id);
-                        setTimeout(() => tid, 250);
+                        return tid;
                     })
                     .then((toast_id) => {
                         history.push(`/profile`);
