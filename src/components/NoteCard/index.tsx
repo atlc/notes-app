@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import gfm from 'remark-gfm';
-import { AiFillEdit } from 'react-icons/ai';
+import { AiFillEdit, AiOutlineStar, AiFillStar } from 'react-icons/ai';
 import { RiDeleteBack2Fill } from 'react-icons/ri';
 import { FcBinoculars } from 'react-icons/fc';
 import { GrNotes } from 'react-icons/gr';
 import Swal from 'sweetalert2';
-import { DELETE } from '../../services/api';
+import { DELETE, PUT } from '../../services/api';
 import { useToaster } from '../../hooks/useToaster';
 
-const NoteCard = ({ id, content, deleteTrigger, allowIcons = true, isPreview = false }: NoteCardProps) => {
+const NoteCard = ({ id, content, reloadTrigger, allowIcons = true, isPreview = false, isPinned = undefined }: NoteCardProps) => {
     const bathBomb = useToaster();
 
     const handleDeletePrompt = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -32,24 +32,39 @@ const NoteCard = ({ id, content, deleteTrigger, allowIcons = true, isPreview = f
                 if (res.isConfirmed) {
                     DELETE(`/api/notes/${id}`)
                         .then(res => {
-                            deleteTrigger();
+                            reloadTrigger();
                             bathBomb({ message: 'The note was deleted successfully. ' });
                         })
                 }
             })
     }
 
-    const TinyText = (text: string) => <p className="text-muted" style={{ fontSize: "0.6rem"}}>{text}</p>
+    const [pinned, setPinned] = useState(isPinned);
+
+    const handlePinUnpin = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        setPinned(!isPinned)
+        
+        const updatedPin = isPinned ? 0 : 1;
+        PUT(`/api/notes/pin/${id}/${updatedPin}`, {})
+            .then(res => {
+                reloadTrigger();
+                bathBomb({ message: res.message });
+            });
+    }
+
+    const TinyText = (text: string) => <p className="text-muted" style={{ fontSize: "0.6rem" }}>{text}</p>
 
 
     return (
         <div className='my-2 rounded-3 p-3 shadow border-2' style={{ "backgroundColor": "#dadfdf" }}>
             <div className="card-body">
-                {isPreview && <div className='d-flex justify-content-end'>
+                {isPreview && <div className='d-flex justify-content-around'>
+                    {!(pinned === undefined) && pinned ? <button onClick={handlePinUnpin} style={{ color: "#4f6a6a", fontSize: "1.6rem" }} className="btn mr-1"><AiFillStar />{TinyText('Unpin me?')}</button> : <button onClick={handlePinUnpin} style={{ color: "#4f6a6a", fontSize: "1.6rem" }} className="btn mr-1"><AiOutlineStar />{TinyText('Pin me!')}</button>}
                     <Link to={{ pathname: '/details', state: { id, content } }}> <button style={{ color: "#4f6a6a", fontSize: "1.6rem" }} className="btn mr-1"><FcBinoculars />{TinyText('Note Details')}</button></Link>
                 </div>}
                 {allowIcons && !isPreview &&
-                     <div className='d-flex justify-content-end'>
+                    <div className='d-flex justify-content-end'>
                         <Link to='/profile'> <button style={{ color: "#4f6a6a", fontSize: "1.6rem" }} className="btn mr-1"><GrNotes />{TinyText('All Notes')}</button></Link>
                         <Link to={{ pathname: '/edit', state: { id, content } }}> <button style={{ color: "#4f6a6a", fontSize: "1.6rem" }} className="btn mr-1"><AiFillEdit />{TinyText('Edit')}</button></Link>
                         <button onClick={handleDeletePrompt} style={{ color: "#d33", fontSize: "1.6rem" }} className="ml-1 btn"><RiDeleteBack2Fill />{TinyText('Delete')}</button>
@@ -67,8 +82,9 @@ interface NoteCardProps {
     id?: string;
     allowIcons?: boolean;
     content: string;
-    deleteTrigger?: any;
+    reloadTrigger?: any;
     isPreview?: boolean
+    isPinned?: boolean | undefined;
 }
 
 
