@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { logout, useCheckAuth } from '../../hooks/useCheckAuth';
-import styled from 'styled-components';
 import { GiHamburgerMenu } from 'react-icons/gi'
 
 const Navbar = () => {
@@ -37,7 +36,6 @@ const Navbar = () => {
     }
 
     const toggle = (e: React.MouseEvent<HTMLButtonElement>) => {
-        console.log(e.target)
         e.preventDefault();
         setToggleMenu(!toggleMenu);
         setIsLoggedIn(checkAuth());
@@ -68,11 +66,5 @@ const Navbar = () => {
 
     );
 }
-
-
-const Nav = styled.nav`
-    background-color: #2f4f4f;
-`;
-
 
 export default Navbar;

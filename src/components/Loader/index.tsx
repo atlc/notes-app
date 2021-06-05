@@ -18,6 +18,7 @@ const Loader = ({ loadingText = 'Loading' }: LoadProps) => {
             setWidthIndexes(lazyRandomSort);
             // }
         }, 600);
+        // eslint-disable-next-line
     }, [elipsis])
 
 

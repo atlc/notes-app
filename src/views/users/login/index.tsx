@@ -46,7 +46,6 @@ const LoginRegister = () => {
 
         try {
             const res = await POST(`/auth/${isRegistering ? 'register' : 'login'}`, data)
-            console.log({ res })
             if (res.token) {
                 setIsLoggedIn(true);
                 setShowLoader(false);
@@ -55,11 +54,8 @@ const LoginRegister = () => {
                         localStorage.clear();
                         localStorage.setItem('token', res.token);
                         localStorage.setItem('user_id', res.id);
-                        return tid;
+                        history.push('/profile');
                     })
-                    .then((toast_id) => {
-                        history.push(`/profile`);
-                    });
             } else {
                 setShowLoader(false);
             }
@@ -102,11 +98,5 @@ const LoginRegister = () => {
         </div>
     )
 }
-
-// interface LoginStateProps {
-//     state?: {
-//         setLoggedIn: () => void
-//     }
-// }
 
 export default LoginRegister;

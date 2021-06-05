@@ -3,7 +3,7 @@ import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import AuthWrapper from './components/AuthWrapper';
 import Navbar from './components/Navbar'
-import { useCheckAuth, get_user_id } from './hooks/useCheckAuth';
+import { useCheckAuth } from './hooks/useCheckAuth';
 import NotFound from './views/404';
 import Create from './views/cards/Create';
 import Details from './views/cards/Details';

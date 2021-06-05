@@ -5,7 +5,6 @@ import { useCheckAuth } from '../../hooks/useCheckAuth';
 // @ts-ignore
 const AuthWrapper = (props) => {
     const checkAuth = useCheckAuth();
-    console.log({ props })
 
     if (checkAuth()) {
         return (
