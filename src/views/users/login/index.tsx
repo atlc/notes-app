@@ -54,7 +54,9 @@ const LoginRegister = () => {
                         localStorage.clear();
                         localStorage.setItem('token', res.token);
                         localStorage.setItem('user_id', res.id);
-                        history.push('/profile');
+                        setTimeout(() => {
+                            history.push('/profile');
+                        }, 500);
                     })
             } else {
                 setShowLoader(false);
