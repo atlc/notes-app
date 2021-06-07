@@ -33,6 +33,8 @@ const Profile = () => {
 
     if (!loaded && !notes.length) return <Loader loadingText='Loading posts' />
 
+    if (typeof notes === "string") return <Loader loadingText='Error attempting to load posts... Trying again' />
+
     return (
         <div className='d-flex flex-wrap w-100 col-xs-11 col-sm-10 col-md-8 justify-content-around'>
             {notes.length > 0 ? notes?.map(note => (
