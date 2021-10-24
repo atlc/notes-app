@@ -6,10 +6,11 @@ export interface Users {
     hashed: string;
     roles: string; // JSON stringified array of strings
     avatar?: string;
-    visible: number;
-    created_at: string;
-    updated_at: string;
-};
+    visible?: number;
+    verified?: number;
+    created_at?: string;
+    updated_at?: string;
+}
 
 export interface Note {
     id: string;
